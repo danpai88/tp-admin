@@ -4,37 +4,19 @@ namespace app\common\display;
 use app\common\form\Input;
 use app\common\form\Select;
 use think\facade\Request;
+use traits\controller\Jump;
 
-class FormDisplay
+class FormDisplay extends Base
 {
-    public static $handle = null;
+    use Jump;
+
 
     public $forms = [];
     public $model = '';
     public $data = [];
     public $title = '';
 
-    /**
-     * @param $model
-     * @return Input
-     * @return Select
-     */
-    public static function model($model)
-    {
-        if(is_null(static::$handle)){
-            static::$handle = new self();
-        }
-
-        static::$handle->model = $model;
-
-        return static::$handle;
-    }
-
-    public function title($title = '')
-    {
-        $this->title = $title;
-        return $this;
-    }
+    public $validate = [];
 
     /**
      * @param $callback
@@ -46,12 +28,22 @@ class FormDisplay
         call_user_func($callback, $this);
 
         $model = model($this->model);
-        $pk = $model->getPk();
+        $pkName = $model->getPk();
 
-        if(Request::get($pk)){
-            $this->data = $model->find(Request::get($pk));
+        $pkValue = input($pkName);
+
+        if(Request::isPost()){
+            if($pkValue){
+                $model->where($pkName, $pkValue)->update(Request::post());
+            }else{
+                $pkValue = $model->insert(Request::post(), false, true);
+            }
+            $this->success('操作成功', url('update', [$pkName => $pkValue]));
         }
 
+        if($pkValue){
+            $this->data = $model->find($pkValue);
+        }
         return view('display/form', ['instance' => $this]);
     }
 }

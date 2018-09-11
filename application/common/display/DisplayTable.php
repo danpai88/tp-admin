@@ -3,7 +3,7 @@ namespace app\common\display;
 
 use think\facade\Request;
 
-class DisplayTable
+class DisplayTable extends Base
 {
     public static $handle = null;
 
@@ -14,34 +14,23 @@ class DisplayTable
 
     public $disableAction = false;
     public $disableEdit = false;
+    public $disableCreate = false;
     public $disableDelete = false;
 
     public $model = '';
+    public $model_handle = null;
 
-    /**
-     * @param $model
-     * @return $this
-     */
-    public static function model($model)
-    {
-        if(is_null(static::$handle)){
-            static::$handle = new self();
-        }
-
-        static::$handle->model = $model;
-
-        return static::$handle;
-    }
-
-    public function title($title = '')
-    {
-        $this->title = $title;
-        return $this;
-    }
+    public $model_user_query = null;
 
     public function getPage()
     {
         return Request::get('p', 1);
+    }
+
+    public function query($callback)
+    {
+        $this->model_user_query = $callback;
+        return $this;
     }
 
     /**
@@ -53,7 +42,7 @@ class DisplayTable
     {
         call_user_func($callback, $this);
 
-        $model = model($this->model);
+        $this->model_handle = model($this->model)->where([]);
 
         $where = [];
         foreach ($this->searchs as $search) {
@@ -62,7 +51,13 @@ class DisplayTable
             }
         }
 
-        $datas = $model->where($where)->paginate(10);
+        //处理用户自定义的 查询条件
+        if($this->model_user_query instanceof \Closure){
+            call_user_func($this->model_user_query, $this->model_handle);
+        }
+
+        $this->model_handle->where($where);
+        $datas = $this->model_handle->paginate(8);
 
         $searchHtml = view('display/search', [
             'instance' => $this,
@@ -71,11 +66,12 @@ class DisplayTable
         $tableHtml = view('column/tr', [
             'datas' => $datas,
             'instance' => $this,
-            'pk' => $model->getPk(),
-            'model' => $model,
+            'pk' => $this->model_handle->getPk(),
+            'model' => $this->model_handle,
         ])->getContent();
 
         return view('display/table', [
+            'instance' => $this,
             'title' => $this->title,
             'table_content' => $tableHtml,
             'search_content' => $searchHtml,

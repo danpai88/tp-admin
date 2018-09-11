@@ -4,10 +4,6 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>{$instance->title}</h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-        </ol>
     </section>
 
     <!-- Main content -->
@@ -15,10 +11,18 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
-                    <form role="form" action="" method="post">
-                        <div class="box-body">
+                    <div class="box-header with-border">
+                        <div class="btn-group">
+                            <a href="{:url('index')}" class="btn flat btn-sm btn-default form-history-back">
+                                <i class="fa fa-arrow-left"></i>
+                                返回
+                            </a>
+                        </div>
+                    </div>
+                    <form role="form" action="" class="form-horizontal dataForm" method="post">
+                        <div class="fields-group">
                             {foreach $instance->forms as $vo}
-                                {:$vo->render()}
+                                {:$vo->render($instance->data)}
                             {/foreach}
                         </div>
                         <div class="box-footer">

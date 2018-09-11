@@ -17,12 +17,12 @@
             {if !$instance->disableAction}
                 <td>
                     {if !$instance->disableEdit}
-                        <a href="{:url('update', [$pk => $vo[$pk]])}" class="btn btn-primary btn-xs" title="修改" se_prerender_url="complete">
+                        <a href="{:url('update', [$pk => $vo[$pk]])}" target="_blank" class="btn btn-primary btn-xs" title="修改" se_prerender_url="complete">
                             <i class="fa fa-pencil"></i>
                         </a>
                     {/if}
                     {if !$instance->disableDelete}
-                        <a href="{:url('delete', [$pk => $vo[$pk]])}" class="btn btn-danger btn-xs" title="删除" se_prerender_url="complete">
+                        <a href="{:url('delete', [$pk => $vo[$pk]])}" target="_blank" class="btn btn-danger btn-xs" title="删除" se_prerender_url="complete">
                             <i class="fa fa-trash"></i>
                         </a>
                     {/if}

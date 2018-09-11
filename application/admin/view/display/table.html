@@ -17,6 +17,15 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
+                    {if !$instance->disableCreate}
+                    <div class="box-header">
+                        <div>
+                            <a title="新增" class="btn btn-primary btn-sm" href="{:url('create')}">
+                                新增
+                            </a>
+                         </div>
+                    </div>
+                    {/if}
                     <!-- /.box-header -->
                     <div class="box-body">{$table_content|raw}</div>
                 </div>

@@ -5,8 +5,10 @@ use app\common\column\Column;
 use app\common\display\DisplayTable;
 use app\common\display\FormDisplay;
 use app\common\form\Form;
+use think\Controller;
+use think\db\Query;
 
-class Index
+class Index extends Controller
 {
     /**
      * @return \think\response\View
@@ -14,16 +16,20 @@ class Index
      */
     public function index()
     {
-        return DisplayTable::model('Users')->title('用户列表')->callback(function(DisplayTable $instance){
+        return DisplayTable::model('WpPosts')->title('文章列表')->callback(function(DisplayTable $instance){
             $instance->columns = [
-                Column::text('id',       '序号'),
-                Column::text('nickName', '昵称'),
+                Column::text('ID',          '序号'),
+                Column::text('post_title',  '文章标题'),
             ];
 
             $instance->searchs = [
-                Form::input('id')->placeholder('输入用户ID'),
-                Form::select('nickName')->options(['a','b','c']),
+                Form::input('ID', false)->placeholder('输入文章ID'),
+                Form::select('post_title', false)->options(['a','b','c']),
             ];
+
+            $instance->query(function(Query $query){
+                $query->where('post_type', 'post');
+            });
         });
     }
 
@@ -33,9 +39,11 @@ class Index
      */
     public function create()
     {
-        return FormDisplay::model('Users')->callback(function($instance){
+        return FormDisplay::model('WpPosts')->callback(function($instance){
             $instance->forms = [
-                Form::input('nickName')->placeholder('用户昵称')
+                Form::input('post_title', '标题')->placeholder('输入标题'),
+                Form::input('guid'),
+                Form::datetime('post_date_gmt', '发布时间'),
             ];
         });
     }
@@ -47,9 +55,12 @@ class Index
 
     public function update()
     {
-        return FormDisplay::model('Users')->title('用户编辑')->callback(function($instance){
+        return FormDisplay::model('WpPosts')->title('文章编辑')->callback(function($instance){
             $instance->forms = [
-                Form::input('nickName', '用户昵称')->placeholder('用户昵称')
+                Form::hidden('ID'),
+                Form::input('post_title', '标题')->placeholder('输入标题'),
+                Form::input('guid'),
+                Form::datetime('post_date_gmt', '发布时间'),
             ];
         });
     }
