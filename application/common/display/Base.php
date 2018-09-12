@@ -39,9 +39,9 @@ class Base
      */
     public function getMenus()
     {
-        $this->menus = model('CyMenus')->where('pid', 0)->select();
+        $this->menus = model('CyMenus')->where('pid', 0)->order('order asc')->select();
         foreach ($this->menus as $key => $menu) {
-            $this->menus[$key]['items'] = model('CyMenus')->where('pid', $menu['id'])->select();
+            $this->menus[$key]['items'] = model('CyMenus')->where('pid', $menu['id'])->order('order asc')->select();
         }
         return $this->menus;
     }

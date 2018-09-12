@@ -11,6 +11,8 @@ class Base
 
     public $data = [];
 
+    public $defaultValue = '';
+
     public function __construct($id, $label = '')
     {
         $this->id = $id;
@@ -21,6 +23,12 @@ class Base
     public function value($value = '')
     {
         $this->value = $value;
+        return $this;
+    }
+
+    public function defaultValue($value = '')
+    {
+        $this->defaultValue = $value;
         return $this;
     }
 

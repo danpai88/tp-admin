@@ -1,0 +1,60 @@
+<?php
+namespace app\admin\controller;
+
+use app\common\column\Column;
+use app\common\display\DisplayTable;
+use app\common\display\FormDisplay;
+use app\common\form\Form;
+use think\Controller;
+use think\db\Query;
+
+class {$controller_name} extends Controller
+{
+    /**
+     * @return \think\response\View
+     * @throws \think\exception\DbException
+     */
+    public function index()
+    {
+        return DisplayTable::model('{$model_name}')->title('列表')->callback(function(DisplayTable $instance){
+            $instance->columns = [
+                {$column_content}
+            ];
+
+            $instance->searchs = [
+
+            ];
+
+            $instance->query(function(Query $query){
+
+            });
+        });
+    }
+
+    /**
+     * @return FormDisplay
+     * @throws \think\exception\DbException
+     */
+    public function create()
+    {
+        return FormDisplay::model('{$model_name}')->title('创建')->callback(function($instance){
+            $instance->forms = [
+                {$form_content}
+            ];
+        });
+    }
+
+    public function delete()
+    {
+
+    }
+
+    public function update()
+    {
+        return FormDisplay::model('{$model_name}')->title('编辑')->callback(function($instance){
+            $instance->forms = [
+                {$form_content}
+            ];
+        });
+    }
+}

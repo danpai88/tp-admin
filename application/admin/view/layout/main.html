@@ -40,6 +40,12 @@
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <style>
+        .cy-block{
+            display: block;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
@@ -90,38 +96,7 @@
             <!-- /.search form -->
 
             <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                {foreach $instance->getMenus() as $menu}
-                    {if $menu->pid}
-                        <li>
-                            <a href="{$menu.url}">
-                                <i class="fa fa-home"></i>
-                                <span>{$menu->title}</span>
-                            </a>
-                        </li>
-                    {else/}
-                        <li class="treeview active">
-                            <a href="javascript:void(0);">
-                                <i class="fa fa-home"></i>
-                                <span>{$menu->title}</span>
-                            </a>
-                            <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-                            {if !empty($menu['items'])}
-                                <ul class="treeview-menu menu-open">
-                                    {foreach $menu['items'] as $item}
-                                        <li>
-                                            <a href="{$item.url}">
-                                                <i class="fa fa-list"></i>
-                                                <span>{$item.title}</span>
-                                            </a>
-                                        </li>
-                                    {/foreach}
-                                </ul>
-                            {/if}
-                        </li>
-                    {/if}
-                {/foreach}
-            </ul>
+            {include file="layout/menus"}
         </section>
         <!-- /.sidebar -->
     </aside>

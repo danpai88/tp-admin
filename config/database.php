@@ -21,7 +21,7 @@ return [
     // 密码
     'password'        => env('database.db_pass', 'test'),
     // 端口
-    'hostport'        => '',
+    'hostport'        => env('database.db_port', '3306'),
     // 连接dsn
     'dsn'             => '',
     // 数据库连接参数

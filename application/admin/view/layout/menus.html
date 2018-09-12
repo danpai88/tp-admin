@@ -1,0 +1,48 @@
+<ul class="sidebar-menu">
+    {foreach $instance->getMenus() as $menu}
+        {if !empty($menu['items'])}
+            <li class="treeview">
+                <a href="javascript:void(0);">
+                    <i class="fa fa-home"></i>
+                    <span>{$menu->title}</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu">
+                    {foreach $menu['items'] as $item}
+                    <li>
+                        <a href="{$item.url}">
+                            <i class="fa fa-list"></i>
+                            <span>{$item.title}</span>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </li>
+        {else/}
+            <li>
+                <a href="{$menu.url}">
+                    <i class="fa fa-home"></i>
+                    <span>{$menu->title}</span>
+                </a>
+            </li>
+        {/if}
+    {/foreach}
+</ul>
+
+<script type="text/javascript">
+$(function(){
+    $('li.treeview').click(function(){
+        $(this).toggleClass('activie');
+        $(this).find('.treeview-menu').toggleClass('menu-open');
+        $(this).find('.treeview-menu').toggleClass('cy-block');
+
+        if($(this).is('activie')){
+            $(this).find('.pull-right-container').find('i').removeClass('fa-angle-left');
+            $(this).find('.pull-right-container').find('i').addClasses('fa-angle-down');
+        }else{
+            $(this).find('.pull-right-container').find('i').removeClass('fa-angle-down');
+            $(this).find('.pull-right-container').find('i').addClass('fa-angle-left');
+        }
+    });
+});
+</script>

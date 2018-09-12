@@ -1,7 +1,7 @@
 <?php
 namespace app\common\column;
 
-class Text extends Base
+class Img extends Base
 {
 
 }

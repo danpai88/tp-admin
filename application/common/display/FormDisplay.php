@@ -16,6 +16,8 @@ class FormDisplay extends Base
     public $data = [];
     public $title = '';
 
+    public $query = null;
+
     public $validate = [];
 
     /**
