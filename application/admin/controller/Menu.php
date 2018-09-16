@@ -21,6 +21,7 @@ class Menu extends Controller
                 Column::text('id',     '序号'),
                 Column::text('title',  '名称'),
                 Column::text('url',    '链接'),
+                Column::text('icon',    '图标'),
                 Column::text('order',  '排序'),
             ];
         });
@@ -41,6 +42,7 @@ class Menu extends Controller
                 Form::select('pid', '选择父类')->options($datas)->defaultValue(0),
                 Form::input('title', '名称'),
                 Form::input('url', '链接'),
+                Form::input('icon', '图标'),
                 Form::input('order', '排序')->value(0),
             ];
         });
@@ -58,6 +60,7 @@ class Menu extends Controller
                 Form::select('pid', '选择父类')->options($datas),
                 Form::input('title', '名称'),
                 Form::input('url', '链接'),
+                Form::input('icon', '图标'),
                 Form::input('order', '排序'),
             ];
         });

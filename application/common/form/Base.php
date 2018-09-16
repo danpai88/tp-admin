@@ -5,6 +5,7 @@ class Base
 {
     public $value = '';
     public $placeholder = '';
+    public $readonly = false;
 
     public $id = '';
     public $label = '';
@@ -44,6 +45,12 @@ class Base
         }
 
         return view('form/'.$type, ['instance' => $this])->getContent();
+    }
+
+    public function readonly($readonly)
+    {
+        $this->readonly = $readonly;
+        return $this;
     }
 
     public function placeholder($text = '')

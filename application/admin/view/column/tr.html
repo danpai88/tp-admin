@@ -11,7 +11,7 @@
         {foreach $datas as $key => $vo }
         <tr>
             {foreach $instance->columns as $column}
-                {$column->render($vo[$column->field])|raw}
+                {$column->render($vo, $column->field)|raw}
             {/foreach}
 
             {if !$instance->disableAction}

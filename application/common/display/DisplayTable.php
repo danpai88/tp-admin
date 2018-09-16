@@ -22,6 +22,8 @@ class DisplayTable extends Base
 
     public $model_user_query = null;
 
+    public $pagezie = 8;
+
     public function getPage()
     {
         return Request::get('p', 1);
@@ -30,6 +32,12 @@ class DisplayTable extends Base
     public function query($callback)
     {
         $this->model_user_query = $callback;
+        return $this;
+    }
+
+    public function pagesize($pagesize)
+    {
+        $this->pagesize = $pagesize;
         return $this;
     }
 
@@ -57,7 +65,7 @@ class DisplayTable extends Base
         }
 
         $this->model_handle->where($where);
-        $datas = $this->model_handle->paginate(8);
+        $datas = $this->model_handle->paginate($this->pagezie);
 
         $searchHtml = view('display/search', [
             'instance' => $this,
