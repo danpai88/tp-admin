@@ -1,0 +1,12 @@
+<div class="form-group">
+    {if $instance->label !== false}
+        <label for="{$instance->id}" class="col-sm-2 control-label">{$instance->label}</label>
+    {/if}
+    <div class="col-sm-10 col-md-8">
+            <input value="{$instance->value}"
+                   name="{$instance->id}"
+                   id="{$instance->id}"
+                   {if $instance->readonly} readonly="readonly" {/if}
+                   class="form-control" placeholder="{$instance->placeholder ?? $instance->label }"/>
+    </div>
+</div>

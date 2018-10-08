@@ -1,0 +1,17 @@
+{if $instance->searchs}
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <form class="form-inline" name="searchForm" id="searchForm" action="" method="get">
+                    {foreach $instance->searchs as $vo}
+                        {:$vo->render()}
+                    {/foreach}
+
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{/if}

@@ -27,25 +27,29 @@ class FormDisplay extends Base
      */
     public function callback($callback)
     {
+        $this->model = model($this->model);
+
         call_user_func($callback, $this);
 
-        $model = model($this->model);
-        $pkName = $model->getPk();
+        $pkName = $this->model->getPk();
 
         $pkValue = input($pkName);
 
         if(Request::isPost()){
+            $data = Request::post();
             if($pkValue){
-                $model->where($pkName, $pkValue)->update(Request::post());
+                $this->model->save($data, [$pkName => $pkValue]);
+                $this->success('编辑成功', url('update', [$pkName => $pkValue]));
             }else{
-                $pkValue = $model->insert(Request::post(), false, true);
+                $this->model->save($data);
+                $pkValue = $this->model->$pkName;
+                $this->success('创建成功', url('create'));
             }
-            $this->success('操作成功', url('update', [$pkName => $pkValue]));
         }
 
         if($pkValue){
-            $this->data = $model->find($pkValue);
+            $this->data = $this->model->find($pkValue);
         }
-        return view('display/form', ['instance' => $this]);
+        return view('common@display/form', ['instance' => $this]);
     }
 }

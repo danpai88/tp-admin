@@ -52,10 +52,10 @@ class DisplayTable extends Base
 
         $this->model_handle = model($this->model)->where([]);
 
-        $where = [];
+        $searchField = [];
         foreach ($this->searchs as $search) {
             if(Request::get($search->id)){
-                $where[$search->id] = Request::get($search->id);
+                $this->model_handle->whereLike($search->id, '%'.Request::get($search->id).'%');
             }
         }
 
@@ -64,21 +64,20 @@ class DisplayTable extends Base
             call_user_func($this->model_user_query, $this->model_handle);
         }
 
-        $this->model_handle->where($where);
-        $datas = $this->model_handle->paginate($this->pagezie);
+        $datas = $this->model_handle->paginate($this->pagezie, false, $searchField);
 
-        $searchHtml = view('display/search', [
+        $searchHtml = view('common@display/search', [
             'instance' => $this,
         ])->getContent();
 
-        $tableHtml = view('column/tr', [
+        $tableHtml = view('common@column/tr', [
             'datas' => $datas,
             'instance' => $this,
             'pk' => $this->model_handle->getPk(),
             'model' => $this->model_handle,
         ])->getContent();
 
-        return view('display/table', [
+        return view('common@display/table', [
             'instance' => $this,
             'title' => $this->title,
             'table_content' => $tableHtml,

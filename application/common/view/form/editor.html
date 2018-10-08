@@ -1,0 +1,14 @@
+<div class="form-group">
+    <label for="{$instance->id}" class="col-sm-2 control-label">{$instance->label}</label>
+    <div class="col-sm-10 col-md-8">
+        <textarea style="width:100%;height:100px;" id="{$instance->id}" name="{$instance->id}">{$instance->value}</textarea>
+    </div>
+</div>
+
+<script src="/admin-lte/bower_components/umeditor/umeditor.config.js"></script>
+<script src="/admin-lte/bower_components/umeditor/umeditor.js"></script>
+<script>
+$(function(){
+    var um = UM.getEditor('{$instance->id}');
+})
+</script>

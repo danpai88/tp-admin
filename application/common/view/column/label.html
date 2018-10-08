@@ -1,0 +1,7 @@
+<td>
+    {if $instance->value}
+        <span class="label label-success">{$instance->options[$instance->value]|default='正常'}</span>
+    {else /}
+        <span class="label label-danger">{$instance->options[$instance->value]|default='停用'}</span>
+    {/if}
+</td>

@@ -1,14 +1,23 @@
 <?php
 namespace app\common\column;
 
-use app\common\column\Text;
+/**
+ * 魔术方法
+ *
+ * @method static Text      text($field, $label = '')
+ * @method static Label     label($field, $label = '')
+ * @method static Img       img($field, $label = '')
+ * @method static Link      link($field, $label = '')
+ * @method static Datetime  datetime($field, $label = '')
+ */
 
 class Column
 {
     /**
-     * @param $name
-     * @param $arguments
-     * @return mixed
+     * 静态方法
+     * @param string $name
+     * @param array $arguments
+     * @method static Text text($field, $label = '')
      */
     public static function __callStatic($name, $arguments)
     {

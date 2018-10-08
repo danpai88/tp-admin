@@ -11,8 +11,8 @@ class Base
 
     /**
      * @param $model
-     * @return Input
-     * @return Select
+     * @throws
+     * @return $this
      */
     public static function model($model)
     {
@@ -44,5 +44,10 @@ class Base
             $this->menus[$key]['items'] = model('CyMenus')->where('pid', $menu['id'])->order('order asc')->select();
         }
         return $this->menus;
+    }
+
+    public function cyView($tpl, $param)
+    {
+        return view('common@'.$tpl, $param);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace app\common\form;
 
+use think\facade\Request;
+
 class Base
 {
     public $value = '';
@@ -13,6 +15,9 @@ class Base
     public $data = [];
 
     public $defaultValue = '';
+
+    public $css = [];
+    public $js = [];
 
     public function __construct($id, $label = '')
     {
@@ -39,12 +44,18 @@ class Base
         $type = array_pop($tmp);
 
         if($this->value === ''){
-            if(isset($data[$this->id])){
+            //优先从 get/post 中获取值
+            if(Request::param($this->id)){
+                $this->value(Request::param($this->id));
+            }elseif(isset($data[$this->id])){
+                //从数据库中 获取value
                 $this->value($data[$this->id]);
+            }else{
+                $this->value = $this->defaultValue;
             }
         }
 
-        return view('form/'.$type, ['instance' => $this])->getContent();
+        return view('common@form/'.strtolower($type), ['instance' => $this])->getContent();
     }
 
     public function readonly($readonly)

@@ -25,7 +25,7 @@ class Base
             $this->value = call_user_func($this->callback, $data);
         }
 
-        return view('column/'.$type, ['instance' => $this])->getContent();
+        return view('common@column/'.strtolower($type), ['instance' => $this])->getContent();
     }
 
     public function callback($callback)

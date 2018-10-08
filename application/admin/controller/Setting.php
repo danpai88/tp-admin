@@ -1,5 +1,5 @@
 <?php
-namespace app\{$module_name}\controller;
+namespace app\admin\controller;
 
 use app\common\column\Column;
 use app\common\display\DisplayTable;
@@ -8,9 +8,9 @@ use app\common\form\Form;
 use think\Controller;
 use think\db\Query;
 
-class {$controller_name} extends Controller
+class Setting extends Controller
 {
-    protected $modelName = '{$model_name}';
+    protected $modelName = 'CySettings';
 
     /**
      * 数据列表
@@ -20,7 +20,12 @@ class {$controller_name} extends Controller
     {
         return DisplayTable::model($this->modelName)->title('数据列表')->callback(function(DisplayTable $instance){
             $instance->columns = [
-                {$column_content}
+                Column::text('id', 'id'),
+                Column::text('key', 'key'),
+                Column::text('value', 'value'),
+                Column::text('created_at', 'created_at'),
+                Column::text('updated_at', 'updated_at'),
+                Column::text('remark', 'remark')
             ];
 
             $instance->searchs = [
@@ -84,7 +89,12 @@ class {$controller_name} extends Controller
     protected function formFields()
     {
         return [
-            {$form_content}
+            Form::input('id', 'id'),
+                Form::input('key', 'key'),
+                Form::input('value', 'value'),
+                Form::datetime('created_at', 'created_at'),
+                Form::datetime('updated_at', 'updated_at'),
+                Form::input('remark', 'remark')
         ];
     }
 }

@@ -12,38 +12,79 @@ class AdminBuild extends Command
 {
     protected function configure()
     {
-        $this->setName('admin:controller')
+        $this->setName('admin:make')
+            ->addArgument('module_name',     Argument::OPTIONAL, "module name")
             ->addArgument('controller_name', Argument::OPTIONAL, "controller name")
-            ->addArgument('model_name', Argument::OPTIONAL, "model name")
-            ->setDescription('make a new admin controller');
+            ->addArgument('model_name',      Argument::OPTIONAL, "model name")
+            ->addArgument('db_conn',         Argument::OPTIONAL, "db_conn name")
+            ->setDescription('ex: php think admin:make adminyzbm CyPush cy_pushs yzbm');
     }
 
     protected function execute(Input $input, Output $output)
     {
-        $controllName = $input->getArgument('controller_name');
         $table = $input->getArgument('model_name');
+        $db_conn = $input->getArgument('db_conn');
 
         if(stristr($table, '_')){
             $modelName = $this->convertUnderline($table);
         }
 
-        list($columnContent, $formContent) = $this->makeColumns($table);
+        list($columnContent, $formContent) = $this->makeColumns($table, $db_conn);
 
+        $this->makeController($input, $columnContent, $formContent, $modelName);
+        $this->makeModel($input, $modelName);
+    }
+
+    /**
+     * 构建controller文件
+     * @param Input $input
+     * @param $columnContent
+     * @param $formContent
+     * @param $modelName
+     */
+    protected function makeController(Input $input, $columnContent, $formContent, $modelName)
+    {
+        $moduleName = $input->getArgument('module_name');
+        $controllName = $input->getArgument('controller_name');
         $controllerStr = file_get_contents(__DIR__.'/controller.txt');
-        $modelStr = file_get_contents(__DIR__.'/model.txt');
 
         $controllerStr = str_replace(
-            ['{$controller_name}', '{$column_content}', '{$form_content}', '{$model_name}'],
-            [$controllName, implode(",\n", $columnContent), implode(",\n", $formContent), $modelName],
+            [
+                '{$controller_name}',
+                '{$column_content}',
+                '{$form_content}',
+                '{$model_name}',
+                '{$module_name}'
+            ],
+            [
+                $controllName,
+                implode(",\n", $columnContent),
+                implode(",\n", $formContent),
+                $modelName,
+                $moduleName
+            ],
             $controllerStr
         );
-        file_put_contents(app()->getAppPath().'/admin/controller/'.$controllName.'.php', $controllerStr);
 
-        $modelFile = app()->getAppPath().'/common/model/'.$modelName.'.php';
+        file_put_contents(app()->getAppPath().'/'.$moduleName.'/controller/'.$controllName.'.php', $controllerStr);
+    }
+
+    /**
+     * 构建model文件
+     * @param Input $input
+     * @param $modelName
+     */
+    protected function makeModel(Input $input, $modelName)
+    {
+        $moduleName = $input->getArgument('module_name');
+        $modelStr = file_get_contents(__DIR__.'/model.txt');
+
+        $modelFile = app()->getAppPath().'/'.$moduleName.'/model/'.$modelName.'.php';
+
         if(!file_exists($modelFile)){
             $modelStr = str_replace(
-                ['{$model_name}'],
-                [$modelName],
+                ['{$model_name}', '{$module_name}'],
+                [$modelName, $moduleName],
                 $modelStr
             );
             file_put_contents($modelFile, $modelStr);
@@ -57,15 +98,23 @@ class AdminBuild extends Command
         return $ucfirst ? ucfirst($str) : $str;
     }
 
-    protected function makeColumns($modelName)
+    /**
+     * 获取数据表结构
+     * @param string $modelName
+     * @param string $db_conn
+     * @return array
+     * @throws \think\Exception
+     */
+    protected function makeColumns($modelName, $db_conn)
     {
-        $columns = Db::query('SHOW FULL FIELDS FROM '.$modelName);
+        $columns = Db::connect($db_conn)->query('SHOW FULL FIELDS FROM '.$modelName);
 
         $columnHtml = $formHtml = [];
 
-        foreach ($columns as $column) {
+        foreach ($columns as $key => $column) {
+            $space = '                ';
             $columnHtml[] = sprintf(
-                "Column::text('%s', '%s')",
+                ($key > 0? $space : '')."Column::text('%s', '%s')",
                 $column['Field'],
                 $column['Comment'] ? $column['Comment'] : $column['Field']
             );
@@ -76,7 +125,7 @@ class AdminBuild extends Command
             }
 
             $formHtml[] = sprintf(
-                "Form::%s('%s', '%s')",
+                ($key > 0? $space : '')."Form::%s('%s', '%s')",
                 $type,
                 $column['Field'],
                 $column['Comment'] ? $column['Comment'] : $column['Field']

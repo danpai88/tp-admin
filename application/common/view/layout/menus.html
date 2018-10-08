@@ -1,0 +1,54 @@
+<ul class="sidebar-menu">
+    {foreach $instance->getMenus() as $key => $menu}
+        {if !empty($menu['items'])}
+            <li class="treeview {if $key === 0} activie {/if}">
+                <a href="javascript:void(0);">
+                    <i class="fa {$menu->icon}"></i>
+                    <span>{$menu->title}</span>
+                    <span class="pull-right-container">
+                        {if $key === 0}
+                            <i class="fa fa-angle-down pull-right"></i>
+                        {else/}
+                            <i class="fa fa-angle-left pull-right"></i>
+                        {/if}
+                    </span>
+                </a>
+                <ul class="treeview-menu {if $key === 0} menu-open cy-block {/if}">
+                    {foreach $menu['items'] as $item}
+                    <li>
+                        <a href="{:url($item['url'])}">
+                            <i class="fa {$item->icon}"></i>
+                            <span>{$item.title}</span>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </li>
+        {else/}
+            <li>
+                <a href="{:url($menu['url'])}">
+                    <i class="fa {$menu->icon}"></i>
+                    <span>{$menu->title}</span>
+                </a>
+            </li>
+        {/if}
+    {/foreach}
+</ul>
+
+<script type="text/javascript">
+$(function(){
+    $('li.treeview').click(function(){
+        $(this).toggleClass('activie');
+        $(this).find('.treeview-menu').toggleClass('menu-open');
+        $(this).find('.treeview-menu').toggleClass('cy-block');
+
+        if($(this).is('.activie')){
+            $(this).find('.pull-right-container').find('i').removeClass('fa-angle-left');
+            $(this).find('.pull-right-container').find('i').addClass('fa-angle-down');
+        }else{
+            $(this).find('.pull-right-container').find('i').removeClass('fa-angle-down');
+            $(this).find('.pull-right-container').find('i').addClass('fa-angle-left');
+        }
+    });
+});
+</script>

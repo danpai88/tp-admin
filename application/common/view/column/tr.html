@@ -1,0 +1,35 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        {foreach $instance->columns as $column}
+            <th>{$column->label ? $column->label : $column->field}</th>
+        {/foreach}
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        {foreach $datas as $key => $vo }
+        <tr>
+            {foreach $instance->columns as $column}
+                {$column->render($vo, $column->field)|raw}
+            {/foreach}
+
+            {if !$instance->disableAction}
+                <td>
+                    {if !$instance->disableEdit}
+                        <a href="{:url('update', [$pk => $vo[$pk]])}" class="btn btn-primary btn-xs" title="修改" se_prerender_url="complete">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    {/if}
+                    {if !$instance->disableDelete}
+                        <a href="{:url('delete', [$pk => $vo[$pk]])}" class="btn btn-danger btn-xs" title="删除" se_prerender_url="complete">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    {/if}
+                </td>
+            {/if}
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+{$datas|raw}

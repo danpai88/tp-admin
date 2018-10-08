@@ -5,7 +5,7 @@ use app\common\column\Column;
 use app\common\display\DisplayTable;
 use app\common\display\FormDisplay;
 use app\common\form\Form;
-use app\common\unit\ArrayHelp;
+use app\common\utils\ArrayHelp;
 use think\Controller;
 
 class Menu extends Controller
