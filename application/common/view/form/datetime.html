@@ -1,6 +1,7 @@
 <div class="form-group">
     <label for="{$instance->id}" class="col-sm-2 control-label">{$instance->label}</label>
-    <div class="input-group date col-sm-10 col-md-4">
+    
+    <div class="input-group date {if $instance->label === false}{else/}col-sm-10 col-md-4{/if}">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
@@ -9,6 +10,7 @@
                value="{$instance->value}"
                data-date-format="{$instance->format}"
                id="{$instance->id}"
+               placeholder="{$instance->placeholder ?? ''}"
                name="{$instance->id}">
     </div>
 </div>

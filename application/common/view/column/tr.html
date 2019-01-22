@@ -4,7 +4,10 @@
         {foreach $instance->columns as $column}
             <th>{$column->label ? $column->label : $column->field}</th>
         {/foreach}
+
+        {if !$instance->disableAction}
         <th>操作</th>
+        {/if}
     </tr>
     </thead>
     <tbody>
