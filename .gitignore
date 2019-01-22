@@ -5,3 +5,4 @@
 thinkphp
 .env
 /.env
+/composer.lock

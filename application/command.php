@@ -10,5 +10,5 @@
 // +----------------------------------------------------------------------
 
 return [
-    'app\common\command\AdminBuild',
+    'app\command\AdminBuild',
 ];

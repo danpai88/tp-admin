@@ -6,9 +6,8 @@ use app\common\display\DisplayTable;
 use app\common\display\FormDisplay;
 use app\common\form\Form;
 use app\common\utils\ArrayHelp;
-use think\Controller;
 
-class Menu extends Controller
+class Menu extends Base
 {
     /**
      * @return \think\response\View

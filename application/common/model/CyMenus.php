@@ -5,5 +5,5 @@ use think\Model;
 
 class CyMenus extends Model
 {
-
+	protected $table = 'cy_menus';
 }

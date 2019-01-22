@@ -1,5 +1,5 @@
 <?php
-namespace app\admin\controller;
+namespace app\{$module_name}\controller;
 
 use app\common\column\Column;
 use app\common\display\DisplayTable;
@@ -7,9 +7,9 @@ use app\common\display\FormDisplay;
 use app\common\form\Form;
 use think\db\Query;
 
-class Setting extends Base
+class {$controller_name} extends Base
 {
-    protected $modelName = 'CySettings';
+    protected $modelName = '{$model_name}';
 
     /**
      * 数据列表
@@ -19,12 +19,7 @@ class Setting extends Base
     {
         return DisplayTable::model($this->modelName)->title('数据列表')->callback(function(DisplayTable $instance){
             $instance->columns = [
-                Column::text('id', 'id'),
-                Column::text('key', 'key'),
-                Column::text('value', 'value'),
-                Column::text('created_at', 'created_at'),
-                Column::text('updated_at', 'updated_at'),
-                Column::text('remark', 'remark')
+                {$column_content}
             ];
 
             $instance->searchs = [
@@ -73,6 +68,7 @@ class Setting extends Base
     {
         return FormDisplay::model($this->modelName)->title('编辑数据')->callback(function($instance){
             $forms = $this->formFields();
+            $forms[] = Form::hidden(model($this->modelName)->getPk());
             $instance->forms = $forms;
 
             $instance->model->event('before_update', function($data){
@@ -88,11 +84,7 @@ class Setting extends Base
     protected function formFields()
     {
         return [
-            Form::input('key', 'key'),
-            Form::input('value', 'value'),
-            Form::datetime('created_at', 'created_at'),
-            Form::datetime('updated_at', 'updated_at'),
-            Form::input('remark', 'remark')
+            {$form_content}
         ];
     }
 }
