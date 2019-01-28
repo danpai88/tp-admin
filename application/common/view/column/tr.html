@@ -2,7 +2,7 @@
     <thead>
     <tr>
         {foreach $instance->columns as $column}
-            <th>{$column->label ? $column->label : $column->field}</th>
+        <th>{$column->label ? $column->label : $column->field}</th>
         {/foreach}
 
         {if !$instance->disableAction}
@@ -11,28 +11,44 @@
     </tr>
     </thead>
     <tbody>
-        {foreach $datas as $key => $vo }
-        <tr>
-            {foreach $instance->columns as $column}
-                {$column->render($vo, $column->field)|raw}
-            {/foreach}
-
-            {if !$instance->disableAction}
-                <td>
-                    {if !$instance->disableEdit}
-                        <a href="{:url('update', [$pk => $vo[$pk]])}" class="btn btn-primary btn-xs" title="修改" se_prerender_url="complete">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                    {/if}
-                    {if !$instance->disableDelete}
-                        <a href="{:url('delete', [$pk => $vo[$pk]])}" class="btn btn-danger btn-xs" title="删除" se_prerender_url="complete">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    {/if}
-                </td>
-            {/if}
-        </tr>
+    {foreach $datas as $key => $vo }
+    <tr>
+        {foreach $instance->columns as $column}
+            {$column->render($vo, $column->field)|raw}
         {/foreach}
+
+        {if !$instance->disableAction}
+        <td>
+            {if $instance->actions}
+                {foreach $instance->actions as $action}
+                    {if $action->isShow($vo)}
+                    <a href="javascript:void(0);"
+                       {if $action->needConfirm}
+                        onclick="if(confirm('确认要{$action->title}？')===true){ location.href='{$action->href}?id={$vo[$instance->columns[0]->field]}'; }"
+                        {else/}
+                        onclick="location.href='{$action->href}?id={$vo[$instance->columns[0]->field]}'"
+                        {/if}
+                        class="btn btn-danger btn-xs">{$action->title}</a>
+                    {/if}
+                {/foreach}
+            {/if}
+
+            {if !$instance->disableEdit}
+            <a href="{:url('update', [$pk => $vo[$pk]])}" class="btn btn-primary btn-xs" title="修改" se_prerender_url="complete">
+                <i class="fa fa-pencil"></i>
+            </a>
+            {/if}
+            {if !$instance->disableDelete}
+            <a href="javascript:void(0);"
+               onclick="if(confirm('确认要删除该条数据？')===true){location.href='{:url('delete', [$pk => $vo[$pk]])}'}"
+               class="btn btn-danger btn-xs" title="删除" se_prerender_url="complete">
+                <i class="fa fa-trash"></i>
+            </a>
+            {/if}
+        </td>
+        {/if}
+    </tr>
+    {/foreach}
     </tbody>
 </table>
 {$datas|raw}

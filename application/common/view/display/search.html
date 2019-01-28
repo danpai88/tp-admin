@@ -6,7 +6,9 @@
                     {foreach $instance->searchs as $vo}
                         {:$vo->render()}
                     {/foreach}
-
+                    {foreach $instance->buttons as $vo}
+                        {:$vo->render()}
+                    {/foreach}
                     <div class="form-group">
                         <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-search"></i> 查询</button>
                     </div>

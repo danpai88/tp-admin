@@ -9,6 +9,8 @@ namespace app\common\column;
  * @method static Img       img($field, $label = '')
  * @method static Link      link($field, $label = '')
  * @method static Datetime  datetime($field, $label = '')
+ * @method static Button  Button($field, $label = '')
+ * @method static Action  Action($field, $label = '')
  */
 
 class Column

@@ -19,7 +19,7 @@ class Login extends Controller
 				$this->error($validate->getError());
 			}
 
-			$user = model('AdminUsers')->where('username', $data['username'])->find();
+			$user = model('AdminUser')->where('username', $data['username'])->find();
 			if(!$user){
 				$this->error('用户不存在');
 			}
@@ -27,8 +27,7 @@ class Login extends Controller
 			if(password_verify($data['password'], $user->password)){
 				Session::set('username', $user->username);
 				Session::set('uid', $user->id);
-
-				Session::set('platform_id', 1);
+				Session::set('nickname', $user->nickname);
 
 				$this->success('登录成功', url('menu/index'));
 			}

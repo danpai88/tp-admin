@@ -1,15 +1,12 @@
 <?php
 namespace app\common\display;
 
-use app\common\form\Input;
-use app\common\form\Select;
 use think\facade\Request;
 use traits\controller\Jump;
 
 class FormDisplay extends Base
 {
     use Jump;
-
 
     public $forms = [];
     public $model = '';
@@ -50,6 +47,13 @@ class FormDisplay extends Base
         if($pkValue){
             $this->data = $this->model->find($pkValue);
         }
-        return view('common@display/form', ['instance' => $this]);
+
+	    list($parent_path_id, $son_path_id) = $this->getCurrentMenu();
+
+        return view('common@display/form', [
+	        'parent_path_id' => $parent_path_id,
+	        'son_path_id' => $son_path_id,
+        	'instance' => $this
+        ]);
     }
 }

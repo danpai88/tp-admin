@@ -23,6 +23,14 @@ class Menu extends Base
                 Column::text('icon',    '图标'),
                 Column::text('order',  '排序'),
             ];
+
+            $instance->searchs = [
+                Column::Button(false, "一键生成")->href(url('shengcheng')),
+            ];
+
+            $instance->actions = [
+                Column::Action('补单')->href(url('index'))->confirm(true)
+            ];
         });
     }
 

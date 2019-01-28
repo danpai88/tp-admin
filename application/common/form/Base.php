@@ -69,4 +69,18 @@ class Base
         $this->placeholder = $text;
         return $this;
     }
+
+	/**
+	 * 获取不可见的成员属性
+	 * @param $name
+	 * @return mixed
+	 * @throws \Exception
+	 */
+    public function __get($name)
+    {
+	    if(!empty($this->$name)){
+	    	return $this->$name;
+	    }
+	    exception("attr {$name} not found");
+    }
 }

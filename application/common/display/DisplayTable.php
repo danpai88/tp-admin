@@ -9,6 +9,8 @@ class DisplayTable extends Base
 
     public $columns = [];
     public $searchs = [];
+    public $actions = [];
+    public $buttons = [];
 
     public $title = '';
 
@@ -54,7 +56,7 @@ class DisplayTable extends Base
 
         $searchField = [];
         foreach ($this->searchs as $search) {
-            if(Request::get($search->id)){
+            if(isset($search->id) && Request::get($search->id)){
                 $this->model_handle->whereLike($search->id, '%'.Request::get($search->id).'%');
             }
         }
@@ -77,7 +79,11 @@ class DisplayTable extends Base
             'model' => $this->model_handle,
         ])->getContent();
 
+	    list($parent_path_id, $son_path_id) = $this->getCurrentMenu();
+
         return view('common@display/table', [
+	        'parent_path_id' => $parent_path_id,
+	        'son_path_id' => $son_path_id,
             'instance' => $this,
             'title' => $this->title,
             'table_content' => $tableHtml,
