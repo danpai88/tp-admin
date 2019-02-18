@@ -9,14 +9,14 @@ class Base
     protected $placeholder = '';
     public $readonly = false;
 
-    public $id = '';
-    public $label = '';
+    protected $id = '';
+	protected $label = '';
 
     public $data = [];
 
     private $defaultValue = '';
 
-    public $required = false;
+	protected $required = false;
 
     //存放 js css
     protected $resources = [];

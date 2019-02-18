@@ -4,10 +4,6 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>{$title}</h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
-        </ol>
     </section>
 
     <!-- Main content -->
@@ -17,15 +13,16 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    {if !$instance->disableCreate}
                     <div class="box-header">
+                        {if !$instance->disableCreate}
                         <div>
                             <a title="新增" class="btn btn-primary btn-sm" href="{:url('create')}">
                                 新增
                             </a>
                          </div>
+                        {/if}
                     </div>
-                    {/if}
+
                     <!-- /.box-header -->
                     <div class="box-body">{$table_content|raw}</div>
                 </div>
