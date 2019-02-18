@@ -6,7 +6,7 @@ use think\facade\Request;
 class Base
 {
     public $value = '';
-    public $placeholder = '';
+    protected $placeholder = '';
     public $readonly = false;
 
     public $id = '';
@@ -14,16 +14,29 @@ class Base
 
     public $data = [];
 
-    public $defaultValue = '';
+    private $defaultValue = '';
 
-    public $css = [];
-    public $js = [];
+    public $required = false;
+
+    //存放 js css
+    protected $resources = [];
 
     public function __construct($id, $label = '')
     {
         $this->id = $id;
         $this->label = $label === '' ? $id : $label;
+        $this->setJsCss();
         return $this;
+    }
+
+    //设置组件要用到的 js和css
+    protected function setJsCss()
+    {
+	    foreach ($this->resources as $item){
+		    if (!in_array($item, Form::$resources)){
+			    Form::$resources[] = $item;
+		    }
+	    }
     }
 
     public function value($value = '')
@@ -58,6 +71,19 @@ class Base
         return view('common@form/'.strtolower($type), ['instance' => $this])->getContent();
     }
 
+    public function __get($name)
+    {
+	    if(isset($this->$name)){
+	    	return $this->$name;
+	    }
+    }
+
+	public function required($required)
+    {
+    	$this->required = $required;
+    	return $this;
+    }
+
     public function readonly($readonly)
     {
         $this->readonly = $readonly;
@@ -68,19 +94,5 @@ class Base
     {
         $this->placeholder = $text;
         return $this;
-    }
-
-	/**
-	 * 获取不可见的成员属性
-	 * @param $name
-	 * @return mixed
-	 * @throws \Exception
-	 */
-    public function __get($name)
-    {
-	    if(!empty($this->$name)){
-	    	return $this->$name;
-	    }
-	    exception("attr {$name} not found");
     }
 }
