@@ -5,10 +5,8 @@
     </div>
 </div>
 
-<script src="/admin-lte/bower_components/umeditor/umeditor.config.js"></script>
-<script src="/admin-lte/bower_components/umeditor/umeditor.js"></script>
 <script>
-$(function(){
-    var um = UM.getEditor('{$instance->id}');
+$(function () {
+    CKEDITOR.replace('{$instance->id}');
 })
 </script>
