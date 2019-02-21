@@ -60,7 +60,7 @@ class Base
             //优先从 get/post 中获取值
             if(Request::param($this->id)){
                 $this->value(Request::param($this->id));
-            }elseif(array_keys($this->id, $data)){
+            }elseif(isset($data[$this->id])){
                 //从数据库中 获取value
                 $this->value($data[$this->id]);
             }else{
