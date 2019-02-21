@@ -28,6 +28,13 @@ class Base
         return view('common@column/'.strtolower($type), ['instance' => $this])->getContent();
     }
 
+    public function fastCallback($options, $default = '')
+    {
+        $this->fast_options = $options;
+        $this->fast_option_default = $default;
+        return $this;
+    }
+
     public function callback($callback)
     {
         $this->callback = $callback;

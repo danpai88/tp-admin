@@ -4,15 +4,19 @@
     <div class="col-sm-10 col-md-4">
         <select class="form-control input-sm" name="{$instance->id}{if $instance->isMulti}[]{/if}" id="{$instance->id}" {if $instance->isMulti}multiple="multiple"{/if}>
             {foreach $instance->options as $value => $_title}
-            <option value="{$value}"
-                    {if is_string($instance->value) && strval($instance->value) === strval($value)}
-                selected="selected"
-                {else /}
-                {if strval($instance->defaultValue) === strval($value)}
-                selected="selected"
-                {/if}
-                {/if}
-                >{$_title}</option>
+                <option value="{$value}"
+                        {if !$instance->isMulti}
+                            {if isset($instance->value)}
+                                {if strval($instance->value) === strval($value)}
+                                    selected="selected"
+                                {/if}
+                            {else /}
+                                {if strval($instance->defaultValue) === strval($value)}
+                                    selected="selected"
+                                {/if}
+                            {/if}
+                        {/if}
+                    >{$_title}</option>
             {/foreach}
         </select>
     </div>
@@ -24,7 +28,7 @@
         });
 
         {if is_array($instance->value) && $instance->isMulti}
-        $('#{$instance->id}').val({:json_encode($instance->value)}).trigger('change')
+            $('#{$instance->id}').val({:json_encode($instance->value)}).trigger('change')
         {/if}
     });
 </script>
