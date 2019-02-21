@@ -7,6 +7,8 @@ class Base
     public $label = '';
     public $value = '';
     public $callback = null;
+    protected $fast_options = null;
+    protected $fast_option_default = '';
 
     public function __construct($field, $label = '')
     {
@@ -23,6 +25,12 @@ class Base
 
         if($this->callback instanceof \Closure){
             $this->value = call_user_func($this->callback, $data);
+        }
+
+        if($this->fast_options){
+            if(isset($this->fast_options[$data[$field]])){
+                $this->value = $this->fast_options[$data[$field]];
+            }
         }
 
         return view('common@column/'.strtolower($type), ['instance' => $this])->getContent();
