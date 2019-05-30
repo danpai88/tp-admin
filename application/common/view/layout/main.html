@@ -50,16 +50,6 @@
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <select style="margin-top: 10px" name="platform" id="platform" class="form-control">
-                            <option value="0">--切换平台--</option>
-                            {php}$platforms = config('joys.apps');{/php}
-                            {foreach $platforms as $platform_id => $item}
-                            <option value="{$platform_id}" {if session('platform_id') == $platform_id} selected {/if}>{$item['name']}</option>
-                            {/foreach}
-                        </select>
-                    </li>
-
                     <li class="dropdown user user-menu">
                         <a href="javascript:void (0)" onclick="if(confirm('确定退出？')===true){location.href='{:url('login/logout')}'}" class="sidebar-toggle">登出</a>
                     </li>

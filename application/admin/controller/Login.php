@@ -31,7 +31,7 @@ class Login extends Controller
 
 				$this->success('登录成功', url('menu/index'));
 			}
-			$this->error('用户或者密码错误', url('menu/index'));
+			$this->error('用户或者密码错误');
 		}
 		return $this->fetch('common@login/index');
 	}

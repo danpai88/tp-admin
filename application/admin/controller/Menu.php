@@ -15,21 +15,13 @@ class Menu extends Base
      */
     public function index()
     {
-        return DisplayTable::model('CyMenus')->title('菜单列表')->callback(function(DisplayTable $instance){
+        return DisplayTable::model('AdminMenus')->title('菜单列表')->callback(function(DisplayTable $instance){
             $instance->columns = [
                 Column::text('id',     '序号'),
                 Column::text('title',  '名称'),
                 Column::text('url',    '链接'),
                 Column::text('icon',    '图标'),
                 Column::text('order',  '排序'),
-            ];
-
-            $instance->searchs = [
-                Column::Button(false, "一键生成")->href(url('shengcheng')),
-            ];
-
-            $instance->actions = [
-                Column::Action('补单')->href(url('index'))->confirm(true)
             ];
         });
     }
@@ -40,8 +32,8 @@ class Menu extends Base
      */
     public function create()
     {
-        return FormDisplay::model('CyMenus')->title('创建菜单')->callback(function(FormDisplay $instance){
-            $parents = model('CyMenus')->where('pid', 0)->select();
+        return FormDisplay::model('AdminMenus')->title('创建菜单')->callback(function(FormDisplay $instance){
+            $parents = model('AdminMenus')->where('pid', 0)->select();
             $datas = ArrayHelp::map($parents, 'id', 'title');
             $datas[0] = '--顶级--';
 
@@ -57,8 +49,8 @@ class Menu extends Base
 
     public function update()
     {
-        return FormDisplay::model('CyMenus')->title('编辑菜单')->callback(function(FormDisplay $instance){
-            $parents = model('CyMenus')->where('pid', 0)->select();
+        return FormDisplay::model('AdminMenus')->title('编辑菜单')->callback(function(FormDisplay $instance){
+            $parents = model('AdminMenus')->where('pid', 0)->select();
             $datas = ArrayHelp::map($parents, 'id', 'title');
             $datas[0] = '--顶级--';
 

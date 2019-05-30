@@ -5,7 +5,7 @@ use think\migration\db\Column;
 
 class Admin extends Migrator
 {
-	public $table = 'cy_admin_users';
+	public $table = 'admin_users';
 
     public function up()
     {
@@ -25,7 +25,7 @@ class Admin extends Migrator
 	    $this->table($this->table)->insert([
 		    'nickname' => '超级管理员',
 		    'username' => 'admin',
-		    'password' => password_hash('woshihuohuo', PASSWORD_DEFAULT),
+		    'password' => password_hash('admin888', PASSWORD_DEFAULT),
 		    'created_at' => time(),
 		    'updated_at' => time(),
 	    ])->save();

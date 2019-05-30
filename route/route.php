@@ -9,6 +9,10 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+Route::get('/', function () {
+    return redirect('/admin');
+});
+
 Route::get('think', function () {
     return 'hello,ThinkPHP5!';
 });

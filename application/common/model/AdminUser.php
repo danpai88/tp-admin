@@ -5,5 +5,5 @@ use think\Model;
 
 class AdminUser extends Model
 {
-	protected $table = 'cy_admin_users';
+	protected $table = 'admin_users';
 }
